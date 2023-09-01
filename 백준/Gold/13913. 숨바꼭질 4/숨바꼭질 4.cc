@@ -1,35 +1,39 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define prev aaa
-#define next aaaa
-const int max_n = 200004;
-int visited[max_n], prev[max_n], n, k, ret, here, cnt, next;   
-vector<int> v; 
-queue<int> q;  
-int main() { 
-    cin >> n >> k; 
-    visited[n] = 1; 
-    q.push(n);  
-    while(q.size()){
-        here = q.front();  
+
+const int _max = 200000;
+int n, k, visited[_max + 4], trace[_max + 4], ret;
+vector<int> v;
+
+int main() {
+    cin >> n >> k;
+
+    queue<int> q;
+    visited[n] = 1;
+    q.push(n);
+    while(q.size()) {
+        int here = q.front();
         q.pop();
-        if(here == k){
-            ret = visited[k]; 
+        if(here == k) {
+            ret = visited[here];
             break;
         }
-		for(int next : {here + 1, here - 1, here * 2}){
-            if(next >= max_n || next < 0 || visited[next]) continue;  
-            visited[next] = visited[here] + 1; 
-            prev[next] = here; 
-            q.push(next); 
-		} 
-    }   
-    for(int i = k; i != n; i = prev[i]){
+        for(int there : {here + 1, here - 1, here * 2}) { 
+            if(there < 0 || there >= _max || visited[there]) continue;
+            visited[there] = visited[here] + 1;
+            trace[there] = here;
+            q.push(there);
+        }
+    }
+
+    for(int i = k; i != n; i = trace[i]) {
         v.push_back(i);
     }
     v.push_back(n);
-    cout << ret - 1<< '\n'; 
     reverse(v.begin(), v.end());
-	for(int i : v) cout << i << ' '; 
+    cout << ret - 1 << '\n';
+    for(int a : v) {
+        cout << a << ' ';
+    } 
     return 0;
 }
