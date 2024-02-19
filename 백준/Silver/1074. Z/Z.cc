@@ -1,21 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int n, r, c;
+int n, a, b;
 
-int move(int n, int r, int c) {
+int func(int n, int a, int b) {
     if(n == 0) return 0;
-    int half = 1<<(n-1);
-    if(r < half && c < half) return move(n - 1, r, c);
-    if(r < half && c >= half) return half * half + move(n - 1, r, c - half);
-    if(r >= half && c < half) return 2 * half * half + move(n - 1, r - half, c);
-    return 3 * half * half + move(n - 1, r - half, c - half);
+    int half = 1<<(n - 1);
+    if(a < half && b < half) return func(n - 1, a, b);
+    if(a < half && b >= half) return half * half + func(n - 1, a, b - half);
+    if(a >= half && b < half) return half * half * 2 + func(n - 1, a - half, b);
+    return half * half * 3 + func(n - 1, a - half, b - half);
 }
 
 
 int main() {
-    ios::sync_with_stdio;
+    ios_base::sync_with_stdio(0);
     cin.tie(0);
-    cin >> n >> r >> c;
-    cout << move(n, r, c);
+    cin >> n >> a >> b;
+    cout << func(n, a, b);
 }
